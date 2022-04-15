@@ -1,0 +1,92 @@
+﻿<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>
+      Intro to MapView - Create a 2D map | Sample | ArcGIS API for JavaScript
+      4.23
+    </title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.23/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.23/"></script>
+
+    <script>
+        require(["esri/Map", "esri/views/MapView","esri/layers/FeatureLayer","esri/widgets/Legend","esri/widgets/ScaleBar","esri/widgets/Search","esri/widgets/LayerList"], (Map, MapView,FeatureLayer,Legend,ScaleBar,Search,LayerList) => {
+    
+            const Flayer = new FeatureLayer({
+                url: "https://services2.arcgis.com/No7KRrFgpO516cMP/arcgis/rest/services/Incidents/FeatureServer"
+            });
+
+        const map1 = new Map({
+            basemap: "dark-gray-vector"
+        });
+        map1.layers.add(Flayer);
+
+        const view1 = new MapView({
+            container: "viewDiv",
+            map: map1,
+            zoom: 4,
+            center: [15, 65] // longitude, latitude
+        });
+        
+        let legend1 = new Legend({
+            view: view1,
+            layerInfos:[{
+                layer: Flayer,
+                title:"事件"
+            }]
+        });
+        view1.ui.add(legend1, "bottom-right");
+        
+        let scaleBar1 = new ScaleBar({
+            view: view1,
+            style:"ruler",
+            unit:"metric"
+        });
+        view1.ui.add(scaleBar1, {
+            position: "bottom-left"
+        }); 
+        
+      const searchWidget1 = new Search({
+          view: view1
+      });
+        view1.ui.add(searchWidget1, {
+            position: "top-right",
+            index: 2
+        }); 
+       
+        let layerList1 = new LayerList({
+            view: view1
+        });
+        view1.ui.add(layerList1, {
+            position: "top-right"
+        });
+  
+       
+  
+       
+
+        });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
